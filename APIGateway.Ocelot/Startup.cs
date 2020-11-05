@@ -21,13 +21,14 @@ namespace APIGateway.Ocelot
         }
 
         public IConfiguration Configuration { get; }
-        
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             // IssuerSigningKey
-            Console.WriteLine(Convert.ToBase64String((new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["TokenManagement:Secret"]))).Key));
+            Console.WriteLine("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhcGlnYXRld2F5LmF1ZCIsImlzcyI6ImFwaWdhdGV3YXkuaXNzIiwiZXhwIjoxNjM2MDkzODYwLCJJc0Z1a2luVXNlciI6InllcyBpJ20gZnVja2luIHVzZXIifQ." +
+            Convert.ToBase64String((new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["TokenManagement:Secret"]))).Key));
 
             services.AddAuthentication()
             .AddJwtBearer("scetiJwtAuth", jbo =>
@@ -42,7 +43,7 @@ namespace APIGateway.Ocelot
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["TokenManagement:Secret"])),
                     ValidIssuer = Configuration["TokenManagement:Issuer"],
                     ValidAudience = Configuration["TokenManagement:Audience"],
-                    
+
                 };
             });
 
